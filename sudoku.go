@@ -109,58 +109,57 @@ func removeFromSlice(s *[]int, t int) {
 	(*s) = a
 }
 
-// Sudoku puzzle information
-type Sudoku struct {
+// sudoku puzzle information
+type sudoku struct {
 	data      []int
 	chars     []int
 	structure [][]int
 }
 
 // A sudoku puzzle of the standard 9x9 format
-func NewSudoku9(data []int) *Sudoku {
+func Solve9(data []int) bool {
 	if len(data) != 81 {
-		return nil
+		return false
 	}
-	return &Sudoku{
+	s := &sudoku{
 		data:      data,
 		chars:     c9,
 		structure: s9,
 	}
+	return s.solve()
 }
 
 // A sudoku puzzle of the 4x4 format
-func NewSudoku4(data []int) *Sudoku {
+func Solve4(data []int) bool {
 	if len(data) != 16 {
-		return nil
+		return false
 	}
-	return &Sudoku{
+	s := &sudoku{
 		data:      data,
 		chars:     c4,
 		structure: s4,
 	}
+	return s.solve()
 }
 
-// NewSudoku creates a custom puzzle solver.
+// Solve allows the creation of a non-standard Sudoku puzzle and solves it.
 //
-// data is layed out left to right, then top to bottom
+// data is the puzzle information, layed out left to right, then top to bottom
 //
-// chars is any valid 'character' the puzzle uses - 0 is used for an empty space
+// chars is any valid 'character' the puzzle uses - 0 is used for an unfilled space
 //
 // structure is a slice of sections, each of which is a slice of positions, len(chars)
 // in length, which describes the rows, columns, boxes or other shapes in which there
 // can only be one of each character
-func NewSudoku(data, chars []int, structure [][]int) *Sudoku {
-	c := make([]int, len(chars))
-	copy(c, chars)
-	s := make([][]int, len(structure))
-	for i, st := range structure {
-		s[i] = make([]int, len(st))
-		copy(s[i], st)
-	}
-	return &Sudoku{data, c, s}
+//
+// Will return true if puzzle is solveable and the solution will be stored in the data slice.
+// Upon a failure, will return false and the data slice will be as original.
+func Solve(data, chars []int, structure [][]int) bool {
+	s := &sudoku{data, chars, structure}
+	return s.solve()
 }
 
-func (s *Sudoku) get(pos int) int {
+func (s *sudoku) get(pos int) int {
 	t := s.data[pos]
 	if inSlice(s.chars, t) {
 		return t
@@ -168,7 +167,7 @@ func (s *Sudoku) get(pos int) int {
 	return 0
 }
 
-func (s *Sudoku) possible(pos int) []int {
+func (s *sudoku) possible(pos int) []int {
 	if pos < 0 || pos > len(s.data) || s.data[pos] != 0 {
 		return nil
 	}
@@ -185,9 +184,7 @@ func (s *Sudoku) possible(pos int) []int {
 }
 
 // Solve will solve any solveable puzzle and return whether is was sucessful.
-//
-// The solution is stored in the data slice initially given to any NewSudoku* function.
-func (s *Sudoku) Solve() bool {
+func (s *sudoku) solve() bool {
 	l := len(s.data)
 	possibilities := make([][]int, l)
 	var pos int

@@ -14,21 +14,12 @@ func MakeBox(gridWidth, gridHeight, boxWidth, boxHeight int) [][]int
 A helper function to make it easier to create the sections in standard
 rectangular puzzles
 
-#### type Sudoku
+#### func  Solve
 
 ```go
-type Sudoku struct {
-}
+func Solve(data, chars []int, structure [][]int) bool
 ```
-
-Sudoku puzzle information
-
-#### func  NewSudoku
-
-```go
-func NewSudoku(data, chars []int, structure [][]int) *Sudoku
-```
-NewSudoku creates a custom puzzle solver.
+Solve allows the creation of a non-standard Sudoku puzzle and solves it.
 
 data is layed out left to right, then top to bottom
 
@@ -38,26 +29,20 @@ structure is a slice of sections, each of which is a slice of positions,
 len(chars) in length, which describes the rows, columns, boxes or other shapes
 in which there can only be one of each character
 
-#### func  NewSudoku4
+Will return true if puzzle is solveable and the solution will be stored in the
+data slice. Upon a failure, will return false and the data slice will be as
+original.
+
+#### func  Solve4
 
 ```go
-func NewSudoku4(data []int) *Sudoku
+func Solve4(data []int) bool
 ```
 A sudoku puzzle of the 4x4 format
 
-#### func  NewSudoku9
+#### func  Solve9
 
 ```go
-func NewSudoku9(data []int) *Sudoku
+func Solve9(data []int) bool
 ```
 A sudoku puzzle of the standard 9x9 format
-
-#### func (*Sudoku) Solve
-
-```go
-func (s *Sudoku) Solve() bool
-```
-Solve will solve any solveable puzzle and return whether is was sucessful.
-
-The solution is stored in the data slice initially given to any NewSudoku*
-function.

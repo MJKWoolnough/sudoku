@@ -104,8 +104,7 @@ func Test4(t *testing.T) {
 		},
 	}
 	for i, test := range tests {
-		t4 := NewSudoku4(test.start)
-		solved := t4.Solve()
+		solved := Solve4(test.start)
 		if test.solveable {
 			if solved {
 				for j, num := range test.start {
@@ -332,8 +331,7 @@ func Test9(t *testing.T) {
 		},
 	}
 	for i, test := range tests {
-		t9 := NewSudoku9(test.start)
-		solved := t9.Solve()
+		solved := Solve9(test.start)
 		if test.solveable {
 			if solved {
 				for j, num := range test.start {
@@ -484,8 +482,7 @@ func TestCustom(t *testing.T) {
 		[]int{360, 361, 362, 363, 364, 365, 366, 367, 368},
 	)
 
-	sc := NewSudoku(data, []int{1, 2, 3, 4, 5, 6, 7, 8, 9}, sections)
-	if sc.Solve() {
+	if Solve(data, []int{1, 2, 3, 4, 5, 6, 7, 8, 9}, sections) {
 		for i, n := range data {
 			if solution[i] != n {
 				t.Errorf("solution found does not match solution given")
