@@ -1,3 +1,4 @@
+// Sudoku is a generic solver for sudoku type puzzles. It can solve a puzzle of any shape and size.
 package sudoku
 
 var (
