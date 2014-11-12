@@ -1,4 +1,4 @@
-// Sudoku is a generic solver for sudoku type puzzles. It can solve a puzzle of any shape and size.
+// Package sudoku is a generic solver for sudoku type puzzles. It can solve a puzzle of any shape and size.
 package sudoku
 
 var (
@@ -49,7 +49,7 @@ var (
 	c9 = []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 )
 
-// A helper function to make it easier to create the sections in standard rectangular puzzles
+// MakeBox is a helper function to make it easier to create the sections in standard rectangular puzzles
 func MakeBox(gridWidth, gridHeight, boxWidth, boxHeight int) [][]int {
 	toRet := make([][]int, 0, gridWidth/boxWidth*gridHeight/boxHeight)
 	for j := 0; j < gridHeight; j += boxHeight {
@@ -92,7 +92,7 @@ type sudoku struct {
 	structure [][]int
 }
 
-// A sudoku puzzle of the standard 9x9 format
+// Solve9 is a sudoku puzzle of the standard 9x9 format
 func Solve9(data []int) bool {
 	if len(data) != 81 {
 		return false
@@ -105,7 +105,7 @@ func Solve9(data []int) bool {
 	return s.solve()
 }
 
-// A sudoku puzzle of the 4x4 format
+// Solve4 is a sudoku puzzle of the 4x4 format
 func Solve4(data []int) bool {
 	if len(data) != 16 {
 		return false
