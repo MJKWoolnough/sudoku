@@ -120,12 +120,15 @@ func slicePos(s []int, p int) int {
 	return -1
 }
 
+// Constraint defines the interface through which the character constraints are processed
 type Constraint interface {
 	Constrain(*Sudoku, int, []bool) bool
 }
 
+// Unique represents a section of data where each cell needs to be different
 type Unique []int
 
+// Constrain implements the Constraint interface
 func (u Unique) Constrain(s *Sudoku, pos int, marked []bool) bool {
 	if slicePos([]int(u), pos) == -1 {
 		return true
