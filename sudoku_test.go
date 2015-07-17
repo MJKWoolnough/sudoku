@@ -1,33 +1,9 @@
-// Copyright (c) 2013 - Michael Woolnough <michael.woolnough@gmail.com>
-//
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-// 1. Redistributions of source code must retain the above copyright notice, this
-//    list of conditions and the following disclaimer.
-// 2. Redistributions in binary form must reproduce the above copyright notice,
-//    this list of conditions and the following disclaimer in the documentation
-//    and/or other materials provided with the distribution.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-// ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-// LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 package sudoku
 
 import "testing"
 
-func TestMakeBox(t *testing.T) {
-	ts9 := make([][]int, 0, 27)
+/*func TestMakeBox(t *testing.T) {
+	ts9 := make([]Constraint, 0, 27)
 	ts9 = append(ts9, MakeBox(9, 9, 9, 1)...)
 	ts9 = append(ts9, MakeBox(9, 9, 1, 9)...)
 	ts9 = append(ts9, MakeBox(9, 9, 3, 3)...)
@@ -46,7 +22,7 @@ func TestMakeBox(t *testing.T) {
 			}
 		}
 	}
-	ts4 := make([][]int, 0, 12)
+	ts4 := make([]Constraint, 0, 12)
 	ts4 = append(ts4, MakeBox(4, 4, 4, 1)...)
 	ts4 = append(ts4, MakeBox(4, 4, 1, 4)...)
 	ts4 = append(ts4, MakeBox(4, 4, 2, 2)...)
@@ -65,7 +41,7 @@ func TestMakeBox(t *testing.T) {
 			}
 		}
 	}
-}
+}*/
 
 func Test4(t *testing.T) {
 	tests := []struct {
@@ -449,37 +425,37 @@ func TestCustom(t *testing.T) {
 		1, 9, 2,
 	}
 
-	sections := make([][]int, 131)
+	sections := make([]Constraint, 0, 131)
 	sections = append(sections, MakeBox(18, 18, 9, 1)...)
 	sections = append(sections, MakeBox(18, 18, 1, 9)...)
 	sections = append(sections, MakeBox(18, 18, 3, 3)...)
 
 	sections = append(sections,
-		[]int{114, 115, 116, 324, 325, 326, 117, 118, 119},
-		[]int{132, 133, 134, 327, 328, 329, 135, 136, 137},
-		[]int{150, 151, 152, 330, 331, 332, 153, 154, 155},
-		[]int{333, 334, 335, 336, 337, 338, 339, 340, 341},
-		[]int{342, 343, 344, 345, 346, 347, 348, 349, 350},
-		[]int{351, 352, 353, 354, 355, 356, 357, 358, 359},
-		[]int{168, 169, 170, 360, 361, 362, 171, 172, 173},
-		[]int{186, 187, 188, 363, 364, 365, 189, 190, 191},
-		[]int{204, 205, 206, 366, 367, 368, 207, 208, 209},
+		Unique{114, 115, 116, 324, 325, 326, 117, 118, 119},
+		Unique{132, 133, 134, 327, 328, 329, 135, 136, 137},
+		Unique{150, 151, 152, 330, 331, 332, 153, 154, 155},
+		Unique{333, 334, 335, 336, 337, 338, 339, 340, 341},
+		Unique{342, 343, 344, 345, 346, 347, 348, 349, 350},
+		Unique{351, 352, 353, 354, 355, 356, 357, 358, 359},
+		Unique{168, 169, 170, 360, 361, 362, 171, 172, 173},
+		Unique{186, 187, 188, 363, 364, 365, 189, 190, 191},
+		Unique{204, 205, 206, 366, 367, 368, 207, 208, 209},
 
-		[]int{114, 132, 150, 333, 342, 351, 168, 186, 204},
-		[]int{115, 133, 151, 334, 343, 352, 169, 187, 205},
-		[]int{116, 134, 152, 335, 344, 353, 170, 188, 206},
-		[]int{324, 327, 330, 336, 345, 354, 360, 363, 366},
-		[]int{325, 328, 331, 337, 346, 355, 361, 364, 367},
-		[]int{326, 329, 332, 338, 347, 356, 362, 365, 368},
-		[]int{117, 135, 153, 339, 348, 357, 171, 189, 207},
-		[]int{118, 136, 154, 340, 349, 358, 172, 190, 208},
-		[]int{119, 137, 155, 341, 350, 359, 173, 191, 209},
+		Unique{114, 132, 150, 333, 342, 351, 168, 186, 204},
+		Unique{115, 133, 151, 334, 343, 352, 169, 187, 205},
+		Unique{116, 134, 152, 335, 344, 353, 170, 188, 206},
+		Unique{324, 327, 330, 336, 345, 354, 360, 363, 366},
+		Unique{325, 328, 331, 337, 346, 355, 361, 364, 367},
+		Unique{326, 329, 332, 338, 347, 356, 362, 365, 368},
+		Unique{117, 135, 153, 339, 348, 357, 171, 189, 207},
+		Unique{118, 136, 154, 340, 349, 358, 172, 190, 208},
+		Unique{119, 137, 155, 341, 350, 359, 173, 191, 209},
 
-		[]int{324, 325, 326, 327, 328, 329, 330, 331, 332},
-		[]int{333, 334, 335, 342, 343, 344, 351, 352, 353},
-		[]int{336, 337, 338, 345, 346, 347, 354, 355, 356},
-		[]int{339, 340, 341, 357, 358, 359, 357, 358, 359},
-		[]int{360, 361, 362, 363, 364, 365, 366, 367, 368},
+		Unique{324, 325, 326, 327, 328, 329, 330, 331, 332},
+		Unique{333, 334, 335, 342, 343, 344, 351, 352, 353},
+		Unique{336, 337, 338, 345, 346, 347, 354, 355, 356},
+		Unique{339, 340, 341, 357, 358, 359, 357, 358, 359},
+		Unique{360, 361, 362, 363, 364, 365, 366, 367, 368},
 	)
 
 	if Solve(data, []int{1, 2, 3, 4, 5, 6, 7, 8, 9}, sections) {
