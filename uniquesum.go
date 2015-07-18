@@ -10,70 +10,68 @@ func (u UniqueSum) Constrain(s *Sudoku, pos int, marked []bool) bool {
 		return true
 	}
 	total := 0
-	myMark := make([]int, len(u.positions))
-	unmarked := 0
+	myMark := make([]bool, s.chars+1)
+	empty := 0
 	for _, p := range u.positions {
 		if mp := s.data[p]; mp == 0 {
-			unmarked++
+			empty++
 		} else {
-			if slicePos(myMark, mp) != -1 {
+			if myMark[mp] {
 				return false
 			}
-			myMark = append(myMark, mp)
+			myMark[mp] = true
 			marked[mp] = true
 			total += mp
 		}
 	}
-	left := u.total - total
-	if left < 0 {
+	remaining := u.total - total
+	if remaining < 0 {
 		return false
 	}
 	myNums := make([]int, 0, s.chars)
-	for n, m := range marked {
-		if !m {
-			myNums = append(myNums, n)
+	for n, b := range myMark[1:] {
+		if !b {
+			myNums = append(myNums, n+1)
 		}
 	}
-	if len(myNums) < unmarked {
-		return false
-	}
-	data := make([]int, 0, unmarked)
-	marks := make([]bool, 0, s.chars+1)
-	if !getCombinations(myNums, data, left, 0, marks) {
+	data := make([]int, 0, empty)
+	marks := make([]bool, s.chars+1)
+	if !getCombinations(myNums, data, 0, remaining, marks) {
 		return false
 	}
 	r := false
 	for n, m := range marks {
 		if !m {
 			marked[n] = true
-			r = true
 		} else if !r && !marked[n] {
 			r = true
 		}
 	}
 	return r
 }
-func getCombinations(nums, data []int, addTo, from int, marks []bool) bool {
-	if from == cap(data) {
-		total := 0
-		for _, n := range nums {
-			total += n
-		}
-		if total == addTo {
-			for _, n := range nums {
-				marks[n] = true // ????
+
+func getCombinations(nums, data []int, pos, remaining int, marks []bool) bool {
+	if len(data) == cap(data) {
+		if remaining == 0 {
+			//fmt.Println(data)
+			for _, n := range data {
+				marks[n] = true
 			}
 			return true
 		}
 		return false
 	}
 	toRet := false
-	for i := from; i < cap(data); i++ {
+	o := data
+	for i := pos; i < len(nums); i++ {
+		if nums[i] > remaining {
+			continue
+		}
 		data = append(data, nums[i])
-		if getCombinations(nums, data, addTo, i+1, marks) {
+		if getCombinations(nums, data, i+1, remaining-nums[i], marks) {
 			toRet = true
 		}
-		data = data[:len(data)-1]
+		data = o
 	}
 	return toRet
 }
