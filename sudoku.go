@@ -18,7 +18,6 @@ var (
 		Unique{8, 9, 12, 13},
 		Unique{10, 11, 14, 15},
 	}
-	c4 = []int{1, 2, 3, 4}
 	s9 = []Constraint{
 		Unique{0, 1, 2, 3, 4, 5, 6, 7, 8},
 		Unique{9, 10, 11, 12, 13, 14, 15, 16, 17},
@@ -48,7 +47,6 @@ var (
 		Unique{57, 58, 59, 66, 67, 68, 75, 76, 77},
 		Unique{60, 61, 62, 69, 70, 71, 78, 79, 80},
 	}
-	c9 = []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 )
 
 // MakeBox is a helper function to make it easier to create the sections in standard rectangular puzzles
@@ -75,7 +73,7 @@ func Solve9(data []int) bool {
 	}
 	s := Sudoku{
 		data:        data,
-		chars:       c9,
+		chars:       9,
 		constraints: s9,
 	}
 	return s.Solve()
@@ -88,7 +86,7 @@ func Solve4(data []int) bool {
 	}
 	s := Sudoku{
 		data:        data,
-		chars:       c4,
+		chars:       4,
 		constraints: s4,
 	}
 	return s.Solve()
@@ -106,7 +104,7 @@ func Solve4(data []int) bool {
 //
 // Will return true if puzzle is solveable and the solution will be stored in the data slice.
 // Upon a failure, will return false and the data slice will be as original.
-func Solve(data, chars []int, constraints []Constraint) bool {
+func Solve(data []int, chars int, constraints []Constraint) bool {
 	s := Sudoku{data, chars, constraints}
 	return s.Solve()
 }
@@ -141,7 +139,7 @@ func (u Unique) Constrain(s *Sudoku, pos int, marked []bool) bool {
 				return false
 			}
 			myMark = append(myMark, mp)
-			marked[slicePos(s.chars, mp)] = true
+			marked[mp] = true
 		}
 	}
 	return true
@@ -188,6 +186,7 @@ func (u UniqueSum) Constrain(s *Sudoku, pos int, marked []bool) bool {
 				return false
 			}
 			myMark = append(myMark, mp)
+			marked[slicePos(s.chars, mp)] = true
 			total += mp
 		}
 	}
@@ -195,14 +194,13 @@ func (u UniqueSum) Constrain(s *Sudoku, pos int, marked []bool) bool {
 	if left < 0 {
 		return false
 	}
-
 	return true
 }*/
 
 // Sudoku puzzle information
 type Sudoku struct {
 	data        []int
-	chars       []int
+	chars       int
 	constraints []Constraint
 }
 
@@ -210,17 +208,17 @@ func (s *Sudoku) possible(pos int) []int {
 	if pos < 0 || pos > len(s.data) || s.data[pos] != 0 {
 		return nil
 	}
-	marked := make([]bool, len(s.chars))
+	marked := make([]bool, s.chars+1)
 	for _, c := range s.constraints {
 		any := c.Constrain(s, pos, marked)
 		if !any {
 			return []int{}
 		}
 	}
-	toRet := make([]int, 0, len(s.chars))
-	for p, m := range marked {
+	toRet := make([]int, 0, s.chars)
+	for p, m := range marked[1:] {
 		if !m {
-			toRet = append(toRet, s.chars[p])
+			toRet = append(toRet, p+1)
 		}
 	}
 	return toRet

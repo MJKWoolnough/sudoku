@@ -458,7 +458,7 @@ func TestCustom(t *testing.T) {
 		Unique{360, 361, 362, 363, 364, 365, 366, 367, 368},
 	)
 
-	if Solve(data, []int{1, 2, 3, 4, 5, 6, 7, 8, 9}, sections) {
+	if Solve(data, 9, sections) {
 		for i, n := range data {
 			if solution[i] != n {
 				t.Errorf("solution found does not match solution given")
