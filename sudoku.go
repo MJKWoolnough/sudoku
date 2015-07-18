@@ -1,8 +1,6 @@
 // Package sudoku is a generic solver for sudoku type puzzles. It can solve a puzzle of any shape and size.
 package sudoku
 
-import "fmt"
-
 var (
 	s4 = []Constraint{
 		Unique{0, 1, 2, 3},
@@ -135,7 +133,6 @@ func (u Unique) Constrain(s *Sudoku, pos int, marked []bool) bool {
 	for _, p := range u {
 		if mp := s.data[p]; mp != 0 {
 			if slicePos(myMark, mp) != -1 {
-				fmt.Println(u, pos, myMark, mp)
 				return false
 			}
 			myMark = append(myMark, mp)
@@ -194,7 +191,55 @@ func (u UniqueSum) Constrain(s *Sudoku, pos int, marked []bool) bool {
 	if left < 0 {
 		return false
 	}
-	return true
+	myNums := make([]int, 0, len(s.chars))
+	for n, m := range marked {
+		if !m {
+			myNums = append(myNums, n)
+		}
+	}
+	if len(myNums) < unmarked {
+		return false
+	}
+	data := make([]int, 0, unmarked)
+	marks := make([]bool, 0, len(s.chars))
+	if !getCombinations(myNums, data, s.chars, left, 0, marks) {
+		return false
+	}
+	r := false
+	for n, m := range marks {
+		if !m {
+			marked[n] = true
+			r = true
+		} else if !r && !marked[n] {
+			r = true
+		}
+	}
+	return r
+}
+
+func getCombinations(nums, data, chars []int, addTo, from int, marks []bool) bool {
+	if from == cap(data) {
+		total := 0
+		for _, n := range nums {
+			total += n
+		}
+		if total == addTo {
+			for _, n := range nums {
+				marks[slicePos(chars, n)] = true // ????
+			}
+			return true
+		}
+		return false
+	}
+	toRet := false
+	for i := from; i < cap(data); i++ {
+		data = append(data, nums[i])
+		if getCombinations(nums, data, chars, addTo, i+1, marks) {
+			toRet = true
+		}
+		data = data[:len(data)-1]
+	}
+	return toRet
 }*/
 
 // Sudoku puzzle information
