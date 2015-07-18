@@ -53,7 +53,6 @@ func (u UniqueSum) Constrain(s *Sudoku, pos int, marked []bool) bool {
 func getCombinations(nums, data []int, pos, remaining int, marks []bool) bool {
 	if len(data) == cap(data) {
 		if remaining == 0 {
-			//fmt.Println(data)
 			for _, n := range data {
 				marks[n] = true
 			}
