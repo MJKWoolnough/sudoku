@@ -44,6 +44,7 @@ import "testing"
 }*/
 
 func Test4(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		start, solution []int
 		solveable       bool
@@ -101,6 +102,7 @@ func Test4(t *testing.T) {
 }
 
 func Test9(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		start, solution []int
 		solveable       bool
@@ -328,6 +330,7 @@ func Test9(t *testing.T) {
 }
 
 func TestCustom(t *testing.T) {
+	t.Parallel()
 	/*
 		http://www.websudoku.com/variation/?day=0
 		5 overlapping 9x9 sudoku puzzles (41 regions)
