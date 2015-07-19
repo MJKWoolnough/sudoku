@@ -1,10 +1,12 @@
 package sudoku
 
+// UniqueSum is a Constraint that requires all numbers to be unique and total a specific amount.
 type UniqueSum struct {
 	positions []int
 	total     int
 }
 
+// Constrain implements the Constraint interface.
 func (u UniqueSum) Constrain(s *Sudoku, pos int, marked []bool) bool {
 	if slicePos(u.positions, pos) == -1 {
 		return true

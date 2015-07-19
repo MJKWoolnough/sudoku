@@ -1,7 +1,9 @@
 package sudoku
 
+// Sorted is a Constraint that requires the numbers to be ordered lowest to highest.
 type Sorted []int
 
+// Constrain implements the Constraing interface.
 func (s Sorted) Constrain(su *Sudoku, pos int, marked []bool) bool {
 	sp := slicePos([]int(s), pos)
 	if sp == -1 {
