@@ -12,11 +12,11 @@ func (s Sorted) Constrain(su *Sudoku, pos int, marked []bool) bool {
 	min := 1
 	nums := make([]int, len(s))
 	for n, p := range s {
-		nums[n] = su.data[p]
+		nums[n] = su.Pos(p)
 	}
 	f := false
 	for i := 0; i < sp; i++ {
-		if mp := su.data[s[i]]; mp == 0 {
+		if mp := su.Pos(s[i]); mp == 0 {
 			min++
 		} else if mp+1 > min {
 			min = mp + 1
@@ -25,10 +25,10 @@ func (s Sorted) Constrain(su *Sudoku, pos int, marked []bool) bool {
 		}
 		f = true
 	}
-	max := su.chars
+	max := su.Chars()
 	f = false
 	for i := len(s) - 1; i > sp; i-- {
-		if mp := su.data[s[i]]; mp == 0 {
+		if mp := su.Pos(s[i]); mp == 0 {
 			max--
 		} else if mp-1 < max {
 			max = mp - 1
@@ -43,7 +43,7 @@ func (s Sorted) Constrain(su *Sudoku, pos int, marked []bool) bool {
 	for i := 1; i < min; i++ {
 		marked[i] = true
 	}
-	for i := su.chars; i > max; i-- {
+	for i := su.Chars(); i > max; i-- {
 		marked[i] = true
 	}
 	return true

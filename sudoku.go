@@ -128,6 +128,14 @@ type Sudoku struct {
 	constraints []Constraint
 }
 
+func (s *Sudoku) Chars() int {
+	return s.chars
+}
+
+func (s *Sudoku) Pos(i int) int {
+	return s.data[i]
+}
+
 func (s *Sudoku) possible(pos int) []int {
 	if pos < 0 || pos > len(s.data) || s.data[pos] != 0 {
 		return nil

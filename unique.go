@@ -10,7 +10,7 @@ func (u Unique) Constrain(s *Sudoku, pos int, marked []bool) bool {
 	}
 	myMark := make([]int, 0, len(u))
 	for _, p := range u {
-		if mp := s.data[p]; mp != 0 {
+		if mp := s.Pos(p); mp != 0 {
 			if slicePos(myMark, mp) != -1 {
 				return false
 			}

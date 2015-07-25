@@ -12,10 +12,10 @@ func (u UniqueSum) Constrain(s *Sudoku, pos int, marked []bool) bool {
 		return true
 	}
 	total := 0
-	myMark := make([]bool, s.chars+1)
+	myMark := make([]bool, s.Chars()+1)
 	empty := 0
 	for _, p := range u.positions {
-		if mp := s.data[p]; mp == 0 {
+		if mp := s.Pos(p); mp == 0 {
 			empty++
 		} else {
 			if myMark[mp] {
@@ -30,7 +30,7 @@ func (u UniqueSum) Constrain(s *Sudoku, pos int, marked []bool) bool {
 	if remaining < 0 {
 		return false
 	}
-	myNums := make([]int, 0, s.chars)
+	myNums := make([]int, 0, s.Chars())
 	for n, b := range myMark[1:] {
 		if !b {
 			myNums = append(myNums, n+1)
