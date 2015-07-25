@@ -128,10 +128,12 @@ type Sudoku struct {
 	constraints []Constraint
 }
 
+// Chars returns the number of different characters used in the puzzle
 func (s *Sudoku) Chars() int {
 	return s.chars
 }
 
+// Pos return the character at the given position
 func (s *Sudoku) Pos(i int) int {
 	return s.data[i]
 }
