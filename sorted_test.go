@@ -40,6 +40,25 @@ func TestFutoshiki(t *testing.T) {
 				Sorted{16, 15, 20},
 			),
 		},
+		{
+			make([]int, 25),
+			[]int{
+				2, 5, 3, 1, 4,
+				1, 3, 4, 5, 2,
+				5, 4, 2, 3, 1,
+				3, 2, 1, 4, 5,
+				4, 1, 5, 2, 3,
+			},
+			true,
+			5,
+			append(g,
+				Sorted{2, 1},
+				Sorted{12, 7, 8},
+				Sorted{14, 9},
+				Sorted{17, 16, 15, 20},
+				Sorted{21, 16},
+			),
+		},
 	}
 	for i, test := range tests {
 		solved := Solve(test.start, test.chars, test.constraints)
