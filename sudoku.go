@@ -1,5 +1,5 @@
 // Package sudoku is a generic solver for sudoku type puzzles. It can solve a puzzle of any shape and size.
-package sudoku
+package sudoku // import "vimagination.zapto.org/sudoku"
 
 var (
 	s4 = []Constraint{
