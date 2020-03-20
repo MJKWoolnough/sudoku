@@ -173,8 +173,6 @@ func TestSumdoku(t *testing.T) {
 			} else {
 				t.Errorf("didn't find solution in puzzle %d when solution expected", i+1)
 			}
-		} else {
-
 		}
 	}
 }
