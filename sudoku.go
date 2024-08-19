@@ -47,46 +47,54 @@ var (
 	}
 )
 
-// MakeBox is a helper function to make it easier to create the sections in standard rectangular puzzles
+// MakeBox is a helper function to make it easier to create the sections in standard rectangular puzzles.
 func MakeBox(gridWidth, gridHeight, boxWidth, boxHeight int) []Constraint {
 	toRet := make([]Constraint, 0, gridWidth/boxWidth*gridHeight/boxHeight)
+
 	for j := 0; j < gridHeight; j += boxHeight {
 		for i := 0; i < gridWidth; i += boxWidth {
 			thisGrid := make(Unique, 0, boxWidth*boxHeight)
+
 			for y := 0; y < boxHeight; y++ {
 				for x := 0; x < boxWidth; x++ {
 					thisGrid = append(thisGrid, i+x+(j+y)*gridWidth)
 				}
 			}
+
 			toRet = append(toRet, thisGrid)
 		}
 	}
+
 	return toRet
 }
 
-// Solve9 is a sudoku puzzle of the standard 9x9 format
+// Solve9 is a sudoku puzzle of the standard 9x9 format.
 func Solve9(data []int) bool {
 	if len(data) != 81 {
 		return false
 	}
+
 	s := Sudoku{
 		data:        data,
 		chars:       9,
 		constraints: s9,
 	}
+
 	return s.Solve()
 }
 
-// Solve4 is a sudoku puzzle of the 4x4 format
+// Solve4 is a sudoku puzzle of the 4x4 format.
 func Solve4(data []int) bool {
 	if len(data) != 16 {
 		return false
 	}
+
 	s := Sudoku{
 		data:        data,
 		chars:       4,
 		constraints: s4,
 	}
+
 	return s.Solve()
 }
 
@@ -104,6 +112,7 @@ func Solve4(data []int) bool {
 // Upon a failure, will return false and the data slice will be as original.
 func Solve(data []int, chars int, constraints []Constraint) bool {
 	s := Sudoku{data, chars, constraints}
+
 	return s.Solve()
 }
 
@@ -113,27 +122,28 @@ func slicePos(s []int, p int) int {
 			return n
 		}
 	}
+
 	return -1
 }
 
-// Constraint defines the interface through which the character constraints are processed
+// Constraint defines the interface through which the character constraints are processed.
 type Constraint interface {
 	Constrain(*Sudoku, int, []bool) bool
 }
 
-// Sudoku puzzle information
+// Sudoku puzzle information.
 type Sudoku struct {
 	data        []int
 	chars       int
 	constraints []Constraint
 }
 
-// Chars returns the number of different characters used in the puzzle
+// Chars returns the number of different characters used in the puzzle.
 func (s *Sudoku) Chars() int {
 	return s.chars
 }
 
-// Pos return the character at the given position
+// Pos return the character at the given position.
 func (s *Sudoku) Pos(i int) int {
 	return s.data[i]
 }
@@ -142,19 +152,23 @@ func (s *Sudoku) possible(pos int) []int {
 	if pos < 0 || pos > len(s.data) || s.data[pos] != 0 {
 		return nil
 	}
+
 	marked := make([]bool, s.chars+1)
+
 	for _, c := range s.constraints {
-		any := c.Constrain(s, pos, marked)
-		if !any {
+		if any := c.Constrain(s, pos, marked); !any {
 			return []int{}
 		}
 	}
+
 	toRet := make([]int, 0, s.chars)
+
 	for p, m := range marked[1:] {
 		if !m {
 			toRet = append(toRet, p+1)
 		}
 	}
+
 	return toRet
 }
 
@@ -162,34 +176,45 @@ func (s *Sudoku) possible(pos int) []int {
 func (s *Sudoku) Solve() bool {
 	l := len(s.data)
 	possibilities := make([][]int, l)
+
 	var pos int
+
 	for ; pos < l; pos++ {
 		if p := s.possible(pos); p != nil {
 			possibilities[pos] = p
+
 			break
 		}
 	}
+
 	for pos < l {
 		if len(possibilities[pos]) == 0 {
 			s.data[pos] = 0
+
 			for pos--; pos >= 0 && len(possibilities[pos]) == 0; pos-- {
 				if possibilities[pos] != nil {
 					s.data[pos] = 0
 				}
 			}
+
 			if pos < 0 {
 				return false
 			}
+
 			continue
 		}
+
 		s.data[pos] = possibilities[pos][0]
 		possibilities[pos] = possibilities[pos][1:]
+
 		for pos++; pos < l; pos++ {
 			if p := s.possible(pos); p != nil {
 				possibilities[pos] = p
+
 				break
 			}
 		}
 	}
+
 	return true
 }
