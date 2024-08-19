@@ -1,18 +1,11 @@
 # sudoku
 --
-    import "github.com/MJKWoolnough/sudoku"
+    import "vimagination.zapto.org/sudoku"
 
-Package sudoku is a generic solver for sudoku type puzzles. It can solve a puzzle of any shape and size.
+Package sudoku is a generic solver for sudoku type puzzles. It can solve a
+puzzle of any shape and size.
 
 ## Usage
-
-#### func  MakeBox
-
-```go
-func MakeBox(gridWidth, gridHeight, boxWidth, boxHeight int) []Constraint
-```
-MakeBox is a helper function to make it easier to create the sections in
-standard rectangular puzzles
 
 #### func  Solve
 
@@ -38,14 +31,14 @@ original.
 ```go
 func Solve4(data []int) bool
 ```
-Solve4 is a sudoku puzzle of the 4x4 format
+Solve4 is a sudoku puzzle of the 4x4 format.
 
 #### func  Solve9
 
 ```go
 func Solve9(data []int) bool
 ```
-Solve9 is a sudoku puzzle of the standard 9x9 format
+Solve9 is a sudoku puzzle of the standard 9x9 format.
 
 #### type Constraint
 
@@ -56,7 +49,15 @@ type Constraint interface {
 ```
 
 Constraint defines the interface through which the character constraints are
-processed
+processed.
+
+#### func  MakeBox
+
+```go
+func MakeBox(gridWidth, gridHeight, boxWidth, boxHeight int) []Constraint
+```
+MakeBox is a helper function to make it easier to create the sections in
+standard rectangular puzzles.
 
 #### type Sorted
 
@@ -81,21 +82,21 @@ type Sudoku struct {
 }
 ```
 
-Sudoku puzzle information
+Sudoku puzzle information.
 
 #### func (*Sudoku) Chars
 
 ```go
 func (s *Sudoku) Chars() int
 ```
-Chars returns the number of different characters used in the puzzle
+Chars returns the number of different characters used in the puzzle.
 
 #### func (*Sudoku) Pos
 
 ```go
 func (s *Sudoku) Pos(i int) int
 ```
-Pos return the character at the given position
+Pos return the character at the given position.
 
 #### func (*Sudoku) Solve
 
@@ -110,14 +111,14 @@ Solve will solve any solveable puzzle and return whether is was sucessful.
 type Unique []int
 ```
 
-Unique represents a section of data where each cell needs to be different
+Unique represents a section of data where each cell needs to be different.
 
 #### func (Unique) Constrain
 
 ```go
 func (u Unique) Constrain(s *Sudoku, pos int, marked []bool) bool
 ```
-Constrain implements the Constraint interface
+Constrain implements the Constraint interface.
 
 #### type UniqueSum
 
