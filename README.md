@@ -14,7 +14,7 @@ func Solve(data []int, chars int, constraints []Constraint) bool
 ```
 Solve allows the creation of a non-standard Sudoku puzzle and solves it.
 
-data is the puzzle information, layed out left to right, then top to bottom
+data is the puzzle information, laid out left to right, then top to bottom
 
 chars is any valid 'character' the puzzle uses - 0 is used for an unfilled space
 
@@ -22,7 +22,7 @@ structure is a slice of sections, each of which is a slice of positions,
 len(chars) in length, which describes the rows, columns, boxes or other shapes
 in which there can only be one of each character
 
-Will return true if puzzle is solveable and the solution will be stored in the
+Will return true if puzzle is solvable and the solution will be stored in the
 data slice. Upon a failure, will return false and the data slice will be as
 original.
 
@@ -73,7 +73,7 @@ highest.
 ```go
 func (s Sorted) Constrain(su *Sudoku, pos int, marked []bool) bool
 ```
-Constrain implements the Constraing interface.
+Constrain implements the Constraint interface.
 
 #### type Sudoku
 
@@ -103,7 +103,7 @@ Pos return the character at the given position.
 ```go
 func (s *Sudoku) Solve() bool
 ```
-Solve will solve any solveable puzzle and return whether is was sucessful.
+Solve will solve any solvable puzzle and return whether is was successful.
 
 #### type Unique
 
