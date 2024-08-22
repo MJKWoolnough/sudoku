@@ -100,7 +100,7 @@ func Solve4(data []int) bool {
 
 // Solve allows the creation of a non-standard Sudoku puzzle and solves it.
 //
-// data is the puzzle information, layed out left to right, then top to bottom
+// data is the puzzle information, laid out left to right, then top to bottom
 //
 // chars is any valid 'character' the puzzle uses - 0 is used for an unfilled space
 //
@@ -108,7 +108,7 @@ func Solve4(data []int) bool {
 // in length, which describes the rows, columns, boxes or other shapes in which there
 // can only be one of each character
 //
-// Will return true if puzzle is solveable and the solution will be stored in the data slice.
+// Will return true if puzzle is solvable and the solution will be stored in the data slice.
 // Upon a failure, will return false and the data slice will be as original.
 func Solve(data []int, chars int, constraints []Constraint) bool {
 	s := Sudoku{data, chars, constraints}
@@ -172,7 +172,7 @@ func (s *Sudoku) possible(pos int) []int {
 	return toRet
 }
 
-// Solve will solve any solveable puzzle and return whether is was sucessful.
+// Solve will solve any solvable puzzle and return whether is was successful.
 func (s *Sudoku) Solve() bool {
 	l := len(s.data)
 	possibilities := make([][]int, l)
